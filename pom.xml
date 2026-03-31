@@ -8,7 +8,7 @@
   <artifactId>joda-time</artifactId>
   <packaging>jar</packaging>
   <name>Joda-Time</name>
-  <version>2.14.1</version>
+  <version>3.14.1-SNAPSHOT</version>
   <description>Date and time library to replace JDK date handling</description>
   <url>https://www.joda.org/joda-time/</url>
 
@@ -393,6 +393,18 @@
   </contributors>
 
   <!-- ==================================================================== -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>${nexus.url}/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>nexus-releases</id>
+      <url>${nexus.url}/repository/maven-releases/</url>
+    </repository>
+  </distributionManagement>
+
+  <!-- ==================================================================== -->
   <build>
     <resources>
       <resource>
@@ -419,6 +431,25 @@
     </resources>
     <!-- define build -->
     <plugins>
+      <!-- Build number from git commit SHA -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>false</doCheck>
+          <doUpdate>false</doUpdate>
+          <shortRevisionLength>8</shortRevisionLength>
+        </configuration>
+      </plugin>
       <!-- Enforce Maven 3.5.0 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -1101,9 +1132,9 @@
     <github-release-plugin.version>1.6.0</github-release-plugin.version>
 
     <!-- Properties for maven-compiler-plugin -->
-    <maven.compiler.compilerVersion>1.5</maven.compiler.compilerVersion>
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.compilerVersion>8</maven.compiler.compilerVersion>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
     <maven.compiler.fork>true</maven.compiler.fork>
     <maven.compiler.verbose>false</maven.compiler.verbose>
     <maven.compiler.debug>true</maven.compiler.debug>
@@ -1121,5 +1152,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <tz.database.version>2026agtz</tz.database.version>
+    <nexus.url>http://localhost:8081</nexus.url>
   </properties>
 </project>
